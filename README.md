@@ -176,6 +176,10 @@ cp myconfig_cat.py myconfig.py
 * コントローラはプログラム実行前に電源ONにすること
 * [JC-U3912Tの操作方法](./docs/jc_u3912t.md) はこちらを参照のこと
 
+## トレーニング
+
+Google Colaboratoryを使ったトレーニングは [こちら](./docs/colab.md) を参照してください。
+
 ## 注意
 
 ### カメラの取り付け
