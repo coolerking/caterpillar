@@ -77,5 +77,39 @@ def test_motor(use_debug=True):
         print('Stop driving')
 
 
+def test_pad(use_debug=False):
+    import donkeycar as dk
+    cfg = dk.load_config()
+    V = dk.vehicle.Vehicle()
+
+    from parts import get_js_controller
+        
+    ctr = get_js_controller(cfg)
+        
+    V.add(ctr, 
+          inputs=['cam/image_array'],
+          outputs=['user/angle', 'user/throttle', 'user/mode', 'recording'],
+          threaded=True)
+    
+    class TestPad:
+        def run(self, angle, throttle, mode, recording):
+            print('an:{} th:{} mode:{}, rec:{}'.format(
+                str(angle), str(throttle), str(mode), str(recording)
+            ))
+        def shutdown(self):
+            pass
+    V.add(TestPad(), inputs=['user/angle', 'user/throttle', 'user/mode', 'recording'])
+
+    try:
+        print('Start driving')
+        #run the vehicle for 20 seconds
+        V.start(rate_hz=cfg.DRIVE_LOOP_HZ, max_loop_count=cfg.MAX_LOOPS)
+    except KeyboardInterrupt:
+        print('Halt driving')
+    finally:
+        print('Stop driving')
+
+
 if __name__ == '__main__':
-    test_motor(use_debug=True)
+    #test_motor(use_debug=True)
+    test_pad(use_debug=True)
