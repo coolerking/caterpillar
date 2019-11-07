@@ -49,11 +49,9 @@ class CaterpillerMotorDriver(object):
         """
         if self.debug:
             print('[CaterpillerMD] throttle:{}, steering:{}'.format(str(throttle), str(steering)))
+
         left_motor_speed, right_motor_speed = self.twowheel.run(throttle, steering)
-        if lift_throttle > 1 or lift_throttle < -1:
-            raise ValueError( "[CaterpillerMD] lift throttle must be between 1(forward) and -1(reverse)")
-        else:
-            lift_motor_speed = float(lift_throttle)
+
         if self.debug:
             print('[CaterpillerMD] left motor speed:{}, right motor speed:{}'.format(str(left_motor_speed), str(right_motor_speed)))
 
