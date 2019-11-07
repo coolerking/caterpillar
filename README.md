@@ -137,9 +137,8 @@ source ~/.bashrc
 
 ```bash
 cd ~/projects
-git clone https://github.com/autorope/donkeycar
+git clone https://github.com/autorope/donkeycar -b 3.1.1
 cd donkeycar
-git checkout -b 3.1.1
 pip install -e .[pi]
 pip install tensorflow==1.13.1
 pip install pigpio
