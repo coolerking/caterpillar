@@ -65,29 +65,36 @@ class ELECOM_JCU3912TController(JoystickController):
             
         self.button_down_trigger_map = {
             # 右ボタン群：上
-            '1': self.on_recording,
-            '2': self.off_recording,
+            #'1': self.on_recording,
+            '1': self.normal_stop,
+            #'2': self.off_recording,
+            '2': self.erase_last_N_records,
 
             # 右ボタン群：下
-            '3': self.set_user_init,
-            '4': self.set_local_init,
+            #'3': self.set_user_init,
+            '3': self.emergency_stop,
+            #'4': self.set_local_init,
+            '4': self.toggle_manual_recording,
 
             # トリガ
-            '5': self.normal_stop,
-            '6': self.emergency_stop,
+            '5': self.decrease_max_throttle,
+            '6': self.increase_max_throttle,
 
             # トリガ小
-            '7': self.decrease_max_throttle,
-            '8': self.increase_max_throttle,
+            '7': self.normal_stop,
+            '8': self.normal_stop,
 
             # アナログスティック押込   
             '9': self.normal_stop,
-            '10': self.erase_last_N_records,
+            '10': self.normal_stop,
+            #'10': self.erase_last_N_records,
 
             # START相当
-            '12': self.toggle_mode,
+            #'12': self.toggle_mode,
+            '12': self.toggle_constant_throttle,
             # SELECT 相当
-            '11': self.toggle_manual_recording,
+            #'11': self.toggle_manual_recording,
+            '11': self.toggle_mode,
         }
 
         self.button_up_trigger_map = {
@@ -96,6 +103,8 @@ class ELECOM_JCU3912TController(JoystickController):
 
         self.axis_trigger_map = {
             'analog_left_vertical': self.set_throttle,
+            'analog_left_horizontal': self.set_steering_analog,
+            'analog_right_vertical': self.set_throttle,
             'analog_right_horizontal': self.set_steering_analog,
             'dpad_horizontal': self.move_left_or_right,
             'dpad_vertical': self.move_front_or_rear,

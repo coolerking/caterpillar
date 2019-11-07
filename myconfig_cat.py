@@ -227,7 +227,7 @@ JOYSTICK_DEADZONE = 0.1             # when non zero, this is the smallest thrott
 # AI_LAUNCH_DURATION = 0.0            # the ai will output throttle for this many seconds
 # AI_LAUNCH_THROTTLE = 0.0            # the ai will output this throttle value
 # AI_LAUNCH_ENABLE_BUTTON = 'R2'      # this keypress will enable this boost. It must be enabled before each use to prevent accidental trigger.
-AI_LAUNCH_ENABLE_BUTTON = 'options'
+AI_LAUNCH_ENABLE_BUTTON = '8'
 # AI_LAUNCH_KEEP_ENABLED = False      # when False ( default) you will need to hit the AI_LAUNCH_ENABLE_BUTTON for each use. This is safest. When this True, is active on each trip into "local" ai mode.
 # 
 # #Scale the output of the throttle of the ai pilot for all model types.
