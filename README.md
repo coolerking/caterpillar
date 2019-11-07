@@ -61,6 +61,9 @@
 | 右履帯駆動DCモータケーブル下 | DCモータドライブキット B01 | ターミナルブロックに接続 |
 
 * ジャンパ延長ワイヤとRaspberry Piを接続
+
+> 結線の詳細は [こちら](./docs/circuit.md) を参照のこと
+
 * Raspberry Piにカメラモジュールを接続
 * 本体に組み付け
 * Raspberry Pi にDUALSHOCK4 USBアダプタを接続
