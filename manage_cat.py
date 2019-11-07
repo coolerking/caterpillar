@@ -523,8 +523,8 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None, camera_type
             debug=use_debug)
         V.add(driver, 
                 inputs=['throttle', 'angle'],
-                outputs=['left_motor_in1', 'left_motor_in2', 'left_motor_vref',
-                'right_motor_in1', 'right_motor_in2', 'right_motor_vref'])
+                outputs=['left_motor_vref', 'left_motor_in1', 'left_motor_in2',
+                'right_motor_vref', 'right_motor_in1', 'right_motor_in2'])
 
         # 左モータ制御
         left_in1 = PIGPIO_OUT(pin=cfg.LEFT_MOTOR_IN1_GPIO, pgio=pgio, debug=use_debug)

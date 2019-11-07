@@ -128,7 +128,7 @@ def test_pad(use_debug=False):
         right_balance=cfg.RIGHT_PWM_BALANCE,
         debug=False),
         inputs=['throttle', 'angle'],
-        outputs=['left_motor_in1', 'left_motor_in2', 'left_motor_vref', 'right_motor_in1', 'right_motor_in2', 'right_motor_vref'])
+        outputs=['left_motor_vref', 'left_motor_in1', 'left_motor_in2', 'right_motor_vref', 'right_motor_in1', 'right_motor_in2'])
 
     class TestDriver:
         def run(self, left_in1, left_in2, left_pwm, right_in1, right_in2, right_pwm):
