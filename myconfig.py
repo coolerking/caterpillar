@@ -66,28 +66,20 @@ DRIVE_TRAIN_TYPE = "DC_TWO_WHEEL_PIGPIO"
 # HBRIDGE_PIN_RIGHT_BWD = 13
 # 
 # #DC_TWO_WHEEL_PIGPIO
-# DC_TWO_WHEEL_PIGPIO - TB6612 Motor Driver
 LEFT_PWM_BALANCE = 1.0
 RIGHT_PWM_BALANCE = 1.0
-# LEFT MOTOR
+# pigpio
 PWM_RANGE=255
 PWM_FREQ=50
-LEFT_MOTOR_PWM_GPIO = 16
-LEFT_MOTOR_IN1_GPIO = 21
-LEFT_MOTOR_IN2_GPIO = 20
-LEFT_MOTOR_GPIOS = [
-    LEFT_MOTOR_IN1_GPIO,
-    LEFT_MOTOR_IN2_GPIO,
-    LEFT_MOTOR_PWM_GPIO]
-
+# LEFT MOTOR
+LEFT_MOTOR_PWM_GPIO = 13
+LEFT_MOTOR_IN1_GPIO = 29
+LEFT_MOTOR_IN2_GPIO = 19
 # RIGHT MOTOR
-RIGHT_MOTOR_PWM_GPIO = 13
-RIGHT_MOTOR_IN1_GPIO = 26
-RIGHT_MOTOR_IN2_GPIO = 19
-RIGHT_MOTOR_GPIOS = [
-    RIGHT_MOTOR_IN1_GPIO,
-    RIGHT_MOTOR_IN2_GPIO,
-    RIGHT_MOTOR_PWM_GPIO]
+RIGHT_MOTOR_PWM_GPIO = 16
+RIGHT_MOTOR_IN1_GPIO = 21
+RIGHT_MOTOR_IN2_GPIO = 20
+# TB6612 STBY
 TB6612_STBY_GPIO = 4
 # 
 # #TRAINING
@@ -138,7 +130,7 @@ PI_DONKEY_ROOT = "/home/pi/projects/caterpillar"   # the location of the mycar d
 # 
 # 
 # #JOYSTICK
-# USE_JOYSTICK_AS_DEFAULT = False     #when starting the manage.py, when True, will not require a --js option to use the joystick
+USE_JOYSTICK_AS_DEFAULT = True     #when starting the manage.py, when True, will not require a --js option to use the joystick
 # JOYSTICK_MAX_THROTTLE = 0.5         #this scalar is multiplied with the -1 to 1 throttle value to limit the maximum throttle. This can help if you drop the controller or just don't need the full speed available.
 # JOYSTICK_STEERING_SCALE = 1.0       #some people want a steering that is less sensitve. This scalar is multiplied with the steering -1 to 1. It can be negative to reverse dir.
 AUTO_RECORD_ON_THROTTLE = True      #if true, we will record whenever throttle is not zero. if false, you must manually toggle recording with some other trigger. Usually circle button on joystick.
