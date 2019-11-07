@@ -208,6 +208,19 @@ cp myconfig_cat.py myconfig.py
 
 ## 注意
 
+### カメラの取り付け
+
+カメラが動作しない場合は以下の項目を確認してください。
+
+* `sudo raspi-config` でカメラを有効化したかどうか
+
+* `raspistill -o test.jpg` で撮影できるかどうか
+
+* `vcgencmd get_camera` の結果が両方 `1` かどうか
+
+上記が動作しない場合は、カメラをつけ直ししてください。
+Raspberry Piのカメラインターフェイスは、すぐにずれてしまうので注意してください。
+
 ### トレーニングおよび自動運転
 
 Donkeycar上のアプリケーションディレクトリが `~/caterpillar` であること以外は、通常のDonkeycarと同じです。
