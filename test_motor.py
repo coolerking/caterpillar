@@ -40,8 +40,8 @@ def test_motor(use_debug=True):
     from parts import PIGPIO_OUT, PIGPIO_PWM
 
     # TB6612 STBY ピン初期化
-    stby = PIGPIO_OUT(pin=cfg.TB6612_STBY_GPIO, pgio=pgio, debug=use_debug)
-    stby.run(1)
+    #stby = PIGPIO_OUT(pin=cfg.TB6612_STBY_GPIO, pgio=pgio, debug=use_debug)
+    #stby.run(1)
 
     # 左モータ制御
     left_in1 = PIGPIO_OUT(pin=cfg.LEFT_MOTOR_IN1_GPIO, pgio=pgio, debug=use_debug)
@@ -66,10 +66,10 @@ def test_motor(use_debug=True):
     except KeyboardInterrupt:
         print('Halt driving')
     finally:
-        if stby is not None:
-            stby.run(0)
-            if use_debug:
-                print('Stop TB6612 STBY')
+        #if stby is not None:
+        #    stby.run(0)
+        #    if use_debug:
+        #        print('Stop TB6612 STBY')
         if pgio is not None:
             pgio.stop()
             if use_debug:
