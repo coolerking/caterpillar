@@ -90,6 +90,28 @@ def test_pad(use_debug=False):
           inputs=['cam/image_array'],
           outputs=['user/angle', 'user/throttle', 'user/mode', 'recording'],
           threaded=True)
+
+    V.mem['pilot/angle'] = 0.0
+    V.mem['pilot/throttle'] = 0.0
+
+
+    class DriveMode:
+        def run(self, mode, 
+                    user_angle, user_throttle,
+                    pilot_angle, pilot_throttle):
+            if mode == 'user': 
+                return user_angle, user_throttle
+            
+            elif mode == 'local_angle':
+                return pilot_angle, user_throttle
+            
+            else: 
+                return pilot_angle, pilot_throttle * cfg.AI_THROTTLE_MULT
+        
+
+    V.add(DriveMode(), 
+        inputs=['user/mode', 'user/angle', 'user/throttle', 'pilot/angle', 'pilot/throttle'], 
+        outputs=['angle', 'throttle'])
     
     class TestPad:
         def run(self, angle, throttle, mode, recording):
@@ -98,7 +120,25 @@ def test_pad(use_debug=False):
             ))
         def shutdown(self):
             pass
-    V.add(TestPad(), inputs=['user/angle', 'user/throttle', 'user/mode', 'recording'])
+    V.add(TestPad(), inputs=['angle', 'throttle', 'user/mode', 'recording'])
+
+    from parts import CaterpillerMotorDriver
+    V.add(CaterpillerMotorDriver(
+        left_balance=cfg.LEFT_PWM_BALANCE, 
+        right_balance=cfg.RIGHT_PWM_BALANCE,
+        debug=False),
+        inputs=['throttle', 'angle'],
+        outputs=['left_motor_in1', 'left_motor_in2', 'left_motor_vref', 'right_motor_in1', 'right_motor_in2', 'right_motor_vref'])
+
+    class TestDriver:
+        def run(self, left_in1, left_in2, left_pwm, right_in1, right_in2, right_pwm):
+            print('lin1:{} lin2:{} lpwm:{} rin1:{} rin2:{} rpwm:{}'.format(
+                str(left_in1), str(left_in2), str(left_pwm), str(right_in1), str(right_in2), str(right_pwm)
+            ))
+        def shutdown(self):
+            pass
+    V.add(TestDriver(), inputs=['left_motor_in1', 'left_motor_in2', 'left_motor_vref', 'right_motor_in1', 'right_motor_in2', 'right_motor_vref'])
+
 
     try:
         print('Start driving')
