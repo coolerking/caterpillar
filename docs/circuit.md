@@ -7,6 +7,8 @@
 
 ## TB6612からRaspberry Piまで
 
+### 3本帯ケーブル
+
 ![Raspberry Pi左から](../assets/gpio_left.jpg)
 
 | **TB6612** | **ジャンパ** | **Raspberry Pi** | **備考** |
@@ -20,6 +22,22 @@
 |BIN2|紫|GPIO26|USB内側左下から2番目|
 |BIN1|青|GPIO19|USB内側左下から3番目|
 |PWMB|緑|GPIO13|USB内側左下から4番目|
+
+### 9本帯ケーブル
+
+![Raspberry Pi左から（帯ケーブル）](../assets/gpio_new.jpg)
+
+| **TB6612** | **ジャンパ** | **Raspberry Pi** | **備考** |
+|:-:|:-:|:-:|:-|
+|PWMA|黒|GPIO16|USB外側右下から3番目|
+|AIN2|白|GPIO20|USB外側右下から2番目|
+|AIN1|灰|GPIO21|USB外側右下から1番目|
+|VCC|紫|5V|USB外側右上から1番目|
+|STBY|青|GPIO4|USB内側左上から4番目|
+|GND|緑|GND|USB外側右上から3番目|
+|BIN2|黃|GPIO26|USB内側左下から2番目|
+|BIN1|橙|GPIO19|USB内側左下から3番目|
+|PWMB|赤|GPIO13|USB内側左下から4番目|
 
 * メスメスのジャンパ線を使用する
 
