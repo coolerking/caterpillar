@@ -22,14 +22,14 @@ class CaterpillerMotorDriver(object):
         self.debug = debug
 
     def set_left_balance(self, left_balance):
-        if left_balance is None or left_balance < 0 or left_balance > 1:
-            raise ValueError('[CaterpillerMD] left_balance:{} out of range [0.0, 1.0]'.format(str(left_balance)))
-        self.left_balance = float(left_balance)
+        #if left_balance is None or left_balance < 0 or left_balance > 1:
+        #    raise ValueError('[CaterpillerMD] left_balance:{} out of range [0.0, 1.0]'.format(str(left_balance)))
+        self.left_balance = self.to_range_value(left_balance)
     
     def set_right_balance(self, right_balance):
-        if right_balance is None or right_balance < 0 or right_balance > 1:
-            raise ValueError('[CaterpillerMD] right_balance:{} out of range [0.0, 1.0]'.format(str(right_balance)))
-        self.right_balance = float(right_balance)
+        #if right_balance is None or right_balance < 0 or right_balance > 1:
+        #    raise ValueError('[CaterpillerMD] right_balance:{} out of range [0.0, 1.0]'.format(str(right_balance)))
+        self.right_balance = self.to_range_value(right_balance)
 
     def run(self, throttle, steering):
         """
@@ -48,9 +48,14 @@ class CaterpillerMotorDriver(object):
             right_in2        int     左モータIN2値（0もしくは1）
         """
         if self.debug:
-            print('[CaterpillerMD] throttle:{}, steering:{}'.format(str(throttle), str(steering)))
+            print('[CaterpillerMD] orig throttle:{}, steering:{}'.format(str(throttle), str(steering)))
+        throttle, steering = self.to_range_value(throttle), self.to_range_value(steering)
+
+        if self.debug:
+            print('[CaterpillerMD] conv throttle:{}, steering:{}'.format(str(throttle), str(steering)))
 
         left_motor_speed, right_motor_speed = self.twowheel.run(throttle, steering)
+        left_motor_speed, right_motor_speed = self.to_range_value(left_motor_speed), self.to_range_value(right_motor_speed)
 
         if self.debug:
             print('[CaterpillerMD] left motor speed:{}, right motor speed:{}'.format(str(left_motor_speed), str(right_motor_speed)))
@@ -58,8 +63,8 @@ class CaterpillerMotorDriver(object):
         left_pwm, left_in1, left_in2 = self.convert_pin_values(left_motor_speed)
         right_pwm, right_in1, right_in2 = self.convert_pin_values(right_motor_speed)
 
-        left_pwm = float(left_pwm * self.left_balance)
-        right_pwm = float(right_pwm * self.right_balance)
+        left_pwm = self.to_range_value(left_pwm * self.left_balance)
+        right_pwm = self.to_range_value(right_pwm * self.right_balance)
 
         if self.debug:
             print('[CaterpillerMD]  left   pwm:{}, in1:{}, in2:{}'.format(str(left_pwm), str(left_in1), str(left_in2)))
@@ -90,6 +95,15 @@ class CaterpillerMotorDriver(object):
             in2 = 1
         return pwm, in1, in2
 
+    def to_range_value(self, value):
+        if value is None:
+            return 0.0
+        elif value > 1.0:
+            return 1.0
+        elif value < -1.0:
+            return -1.0
+        else:
+            return float(value)
 
     def shutdown(self):
         """
