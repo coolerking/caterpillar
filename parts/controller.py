@@ -7,7 +7,9 @@ PS3/PS4 コントローラパーツクラスを提供する。
 
 `donkey createjs` でベースクラスを作成し、追記した。
 """
-from donkeycar.parts.controller import Joystick, JoystickController, PS3JoystickController
+from donkeycar.parts.controller import Joystick, JoystickController
+
+''' ELECOM JC-U3912T '''
 
 class ELECOM_JCU3912T(Joystick):
     """
@@ -24,7 +26,7 @@ class ELECOM_JCU3912T(Joystick):
         戻り値：
             なし
         """
-        super(ELECOM_JCU3912T, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         # ボタン定義
         self.button_names = {
@@ -59,8 +61,6 @@ class ELECOM_JCU3912T(Joystick):
             0x11 : 'dpad_vertical',             # 十字キー上下
         }
 
-
-
 class ELECOM_JCU3912TController(JoystickController):
     """
     JC-U3912T ゲームパッドパーツクラス
@@ -74,7 +74,7 @@ class ELECOM_JCU3912TController(JoystickController):
         戻り値：
             なし
         """
-        super(ELECOM_JCU3912TController, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
     def init_js(self):
@@ -206,10 +206,13 @@ class ELECOM_JCU3912TController(JoystickController):
         """
         return self.set_steering(axis_val * (-1))
 
+''' ELECOM JC-U4113S '''
+
 class ELECOM_JCU4113SJoystick(Joystick):
     """
     JC-U4113Sにおける/dev/input/js0 でのボタン/パッド/ジョイスティック
     各々のコードをマップ化したクラス。
+    注意：X-Box互換モードで使用すること。
     """
     def __init__(self, *args, **kwargs):
         """
@@ -220,7 +223,7 @@ class ELECOM_JCU4113SJoystick(Joystick):
         戻り値：
             なし
         """
-        super(ELECOM_JCU4113SJoystick, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         # ボタン入力定義
         self.button_names = {
@@ -270,7 +273,7 @@ class ELECOM_JCU4113SJoystickController(JoystickController):
         戻り値：
             なし
         """
-        super(ELECOM_JCU4113SJoystickController, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
     def init_js(self):
@@ -400,6 +403,215 @@ class ELECOM_JCU4113SJoystickController(JoystickController):
             self.set_throttle(-1)
         else:
             self.set_throttle(0)
+
+    def set_steering_analog(self, axis_val):
+        """
+        アナログスティックでステアリング操作を行う。
+        十字キーとアナログキーの左右値がことなるため、
+        別途実装している。
+        引数：
+            axis_val    ゼロ：停止
+        戻り値：
+            なし
+        """
+        return self.set_steering(axis_val * (-1))
+
+''' SONY PS3 コントローラ '''
+
+class PS3Joystick(Joystick):
+    """
+    PS3コントローラのボタン・アナログ入力定義をおこなうクラス。
+    """
+    def __init__(self, *args, **kwargs):
+        """
+        親クラスの初期処理実行後、PS3コントローラの
+        ボタン・アナログ入力定義を行う。
+        """
+        super().__init__(*args, **kwargs)
+        # ボタン入力
+        self.button_names = {
+            0x220 : 'dpad_up',
+            0x221 : 'dpad_down',
+            0x222 : 'dpad_left',
+            0x223 : 'dpad_right',
+            0x130 : 'cross',
+            0x131 : 'circle',
+            0x133 : 'triangle',
+            0x134 : 'square',
+            0x136 : 'l1',
+            0x137 : 'r1',
+            0x138 : 'l2',
+            0x139 : 'r2',
+            0x13a : 'select',
+            0x13b : 'start',
+            0x13c : 'logo',
+            0x13d : 'left_analog',
+            0x13e : 'right_analog',
+        }
+        # アナログ入力
+        self.axis_names = {
+            0x0 : 'left_horz',
+            0x1 : 'left_vert',
+            0x2 : 'l2_axis',
+            0x3 : 'right_horz',
+            0x4 : 'right_vert',
+            0x5 : 'r2_axis',
+        }
+
+class PS3JoystickController(JoystickController):
+    """
+    SONY PS3コントローラパーツクラス
+    """
+    def __init__(self, *args, **kwargs):
+        """
+        親クラスの初期化処理を実行する。
+        引数：
+            なし
+        戻り値：
+            なし
+        """
+        super().__init__(*args, **kwargs)
+
+    def init_js(self):
+        """
+        SONY PS3固有の定義をおこなう。
+        引数：
+            なし
+        戻り値：
+            なし
+        """
+        try:
+            self.js = PS3Joystick(self.dev_fn)
+            self.js.init()
+        except FileNotFoundError:
+            print(self.dev_fn, "not found.")
+            self.js = None
+        return self.js is not None
+
+    def init_trigger_maps(self):
+        """
+        ボタンやアナログスティックへ機能を割り当てる。
+        引数：
+            なし
+        戻り値：
+            なし
+        """
+        # ボタン押下時呼び出す関数のマッピング定義 
+        self.button_down_trigger_map = {
+            # 右ボタン群：上
+            'square':   self.normal_stop,
+            'triangle': self.erase_last_N_records,
+
+            # 右ボタン群：下
+            'cross':    self.emergency_stop,
+            'circle':   self.toggle_manual_recording,
+
+            # トリガ
+            'l2': self.decrease_max_throttle,
+            'r2': self.increase_max_throttle,
+
+            # トリガ小
+            'l1': self.normal_stop,
+            'r1': self.normal_stop,
+
+            # アナログスティック押込   
+            'left_analog':  self.normal_stop,
+            'right_analog': self.normal_stop,
+
+            # SELECT 相当
+            'select': self.toggle_mode,
+
+            # START相当
+            'start': self.toggle_constant_throttle,
+
+            # 十字キー
+            'dpad_left':    self.move_left,
+            'dpad_right':   self.move_right,
+            'dpad_up':      self.move_front,
+            'dpad_down':    self.move_rear,
+        }
+
+        # トリガ型ボタン離脱時呼び出す関数のマッピング定義
+        self.button_up_trigger_map = {
+            # 十字キー
+            'dpad_left':    self.move_stop_steer,
+            'dpad_right':   self.move_stop_steer,
+            'dpad_up':      self.move_stop,
+            'dpad_down':    self.move_stop,
+        } # なし
+
+        # アナログ入力時呼び出す関数のマッピング定義
+        self.axis_trigger_map = {
+            'left_vert': self.set_throttle,
+            'left_horz': self.set_steering,
+            'right_vert': self.set_throttle,
+            'right_horz': self.set_steering,
+
+        }
+
+    ''' 親クラスにない機能：マッピング対象の関数 '''
+
+    def normal_stop(self):
+        """
+        通常停止する。
+        引数：
+            なし
+        戻り値：
+            なし
+        """
+        self.set_throttle(0)
+        self.set_steering(0)
+
+    def move_left_or_right(self, axis_val):
+        """
+        左右へ最大速度で移動する。
+        引数：
+            axis_val    ゼロ：停止
+        戻り値：
+            なし
+        """
+        if axis_val > 0:
+            self.move_left()
+        elif axis_val < 0:
+            self.move_right()
+        else:
+            self.normal_stop()
+
+    def move_left(self):
+        self.set_throttle(-1)
+        self.set_steering(1)
+
+    def move_right(self):
+        self.set_throttle(-1)
+        self.set_steering(1)
+
+    def move_front(self):
+        self.set_throttle(1)
+
+    def move_rear(self):
+        self.set_throttle(-1)
+    
+    def move_stop(self):
+        self.set_throttle(0)
+    
+    def move_stop_steer(self):
+        self.set_steering(0)
+
+    def move_front_or_rear(self, axis_val):
+        """
+        前後へ最大速度で移動する。
+        引数：
+            axis_val    ゼロ：停止
+        戻り値：
+            なし
+        """
+        self.set_steering(0)
+        if axis_val > 0:
+            self.move_front()
+        elif axis_val < 0:
+            self.move_rear()
+        else:
+            self.move_stop()
 
     def set_steering_analog(self, axis_val):
         """
@@ -690,6 +902,14 @@ def get_js_controller(cfg):
             ctr.set_deadzone(cfg.JOYSTICK_DEADZONE)
             return ctr
         elif cfg.CONTROLLER_TYPE == "JCU4113S":
+            cont_class = ELECOM_JCU4113SJoystickController
+            ctr = cont_class(throttle_dir=cfg.JOYSTICK_THROTTLE_DIR,
+                                throttle_scale=cfg.JOYSTICK_MAX_THROTTLE,
+                                steering_scale=cfg.JOYSTICK_STEERING_SCALE,
+                                auto_record_on_throttle=cfg.AUTO_RECORD_ON_THROTTLE)
+            ctr.set_deadzone(cfg.JOYSTICK_DEADZONE)
+            return ctr
+        elif cfg.CONTROLLER_TYPE == "ps3_on_wire":
             cont_class = ELECOM_JCU4113SJoystickController
             ctr = cont_class(throttle_dir=cfg.JOYSTICK_THROTTLE_DIR,
                                 throttle_scale=cfg.JOYSTICK_MAX_THROTTLE,
