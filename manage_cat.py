@@ -326,7 +326,10 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None, camera_type
     def load_model_json(kl, json_fnm):
         start = time.time()
         print('loading model json', json_fnm)
-        from tensorflow.python import keras
+        try:
+            from tensorflow.python import keras
+        except:
+            raise
         try:
             with open(json_fnm, 'r') as handle:
                 contents = handle.read()
@@ -506,7 +509,10 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None, camera_type
         V.add(motor, inputs=["throttle"])
     # DC2モータ pigpio制御、TB6612 ジャンパ設定無し
     elif cfg.DRIVE_TRAIN_TYPE == "DC_TWO_WHEEL_PIGPIO":
-        import pigpio
+        try:
+            import pigpio
+        except:
+            raise
         # pigpio 制御開始
         pgio = pigpio.pi()
 
