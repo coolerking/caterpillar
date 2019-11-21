@@ -7,7 +7,7 @@ def test_pad():
 
     import numpy as np
 
-    V.mem['cam/image_array'] = np.zeors((120, 160, 3))
+    V.mem['cam/image_array'] = np.zeros((120, 160, 3))
 
     from parts.controller import PS3JoystickController
     ctr = PS3JoystickController(
