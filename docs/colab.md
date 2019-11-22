@@ -1,5 +1,7 @@
 # Google Colaboratory を使ったトレーニング
 
+* [ipynbファイル](../caterpillar.ipynb)
+
 ## Raspberry Pi上での操作
 
 ```bash
@@ -33,7 +35,7 @@ tar cvfz datas_YYYYMMDD_XX.tar.gz ./data
 git clone https://github.com/autorope/donkeycar -b 3.1.1
 cd donkeycar
 pip install .[pc]
-pip install tensorflow-gpu==1.13.1 -U
+pip install tensorflow-gpu==1.15.0
 %cd /content/
 git clone https://github.com/coolerking/caterpillar
 cd caterpillar

@@ -140,10 +140,19 @@ cd ~/projects
 git clone https://github.com/autorope/donkeycar -b 3.1.1
 cd donkeycar
 pip install -e .[pi]
+
+# Google Colab を使う場合
+wget https://github.com/PINTO0309/Tensorflow-bin/raw/master/tensorflow-1.15.0-cp35-cp35m-linux_armv7l.whl
+pip install tensorflow==tensorflow-1.15.0-cp35-cp35m-linux_armv7l.whl
+
+# Google Colab を使わない場合
 pip install tensorflow==1.13.1
+
 pip install pigpio
 pip install opencv-python
 ```
+
+> 2019/11/22 時点の Google Colab 環境の cuda ライブラリが10より上になったため、Tensorflow 1.13.1 が動作しません。
 
 ### このリポジトリアプリケーションの展開
 
