@@ -111,10 +111,10 @@ TB6612_STBY_GPIO = 4
 # #Pi login information
 # #When using the continuous train option, these credentials will
 # #be used to copy the final model to your vehicle. If not using this option, no need to set these.
-PI_USERNAME = "pi"                  # username on pi
-PI_PASSWD = "raspberry"             # password is optional. Only used from Windows machine. Ubuntu and mac users should copy their public keys to the pi. `ssh-copy-id username@hostname`
-PI_HOSTNAME = "192.168.8.101"   # the network hostname or ip address
-PI_DONKEY_ROOT = "/home/pi/projects/caterpillar"   # the location of the mycar dir on the pi. this will be used to help locate the final model destination.
+#PI_USERNAME = "pi"                  # username on pi
+#PI_PASSWD = "raspberry"             # password is optional. Only used from Windows machine. Ubuntu and mac users should copy their public keys to the pi. `ssh-copy-id username@hostname`
+#PI_HOSTNAME = "192.168.8.101"   # the network hostname or ip address
+#PI_DONKEY_ROOT = "/home/pi/projects/caterpillar"   # the location of the mycar dir on the pi. this will be used to help locate the final model destination.
 # 
 # # Region of interst cropping
 # # only supported in Categorical and Linear models.
@@ -227,7 +227,7 @@ JOYSTICK_DEADZONE = 0.1             # when non zero, this is the smallest thrott
 # AI_LAUNCH_DURATION = 0.0            # the ai will output throttle for this many seconds
 # AI_LAUNCH_THROTTLE = 0.0            # the ai will output this throttle value
 # AI_LAUNCH_ENABLE_BUTTON = 'R2'      # this keypress will enable this boost. It must be enabled before each use to prevent accidental trigger.
-AI_LAUNCH_ENABLE_BUTTON = '8'
+# AI_LAUNCH_ENABLE_BUTTON = '8'
 # AI_LAUNCH_KEEP_ENABLED = False      # when False ( default) you will need to hit the AI_LAUNCH_ENABLE_BUTTON for each use. This is safest. When this True, is active on each trip into "local" ai mode.
 # 
 # #Scale the output of the throttle of the ai pilot for all model types.

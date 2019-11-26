@@ -1,6 +1,6 @@
 # 楽しい工作シリーズ「ブルドーザ」のDonkeycar化
 
-このリポジトリは、 [タミヤ 楽しい工作シリーズ No.104 ブルドーザー工作基本セット](https://store.shopping.yahoo.co.jp/shophoney/20190307213959-00071.html?sc_e=slga_pla) をDonkeyCar化した際のアプリケーションプログラムです。
+このリポジトリは、 [タミヤ 楽しい工作シリーズ No.104 ブルドーザー工作基本セット](https://store.shopping.yahoo.co.jp/shophoney/20190307213959-00071.html?sc_e=slga_pla) をDonkeyCar化した際のアプリケーションプログラム( [MITライセンス](./LICENSE) 準拠)です。
 工具や外装組み付け部品を除き、約22,500円(税込)で制作することができます。
 
 * [Donkeycar Ver3.1.1](http://docs.donkeycar.com/) が前提です
@@ -9,7 +9,7 @@
 * Raspberry Pi 3B+ の使用が前提です
   pigpioパッケージを使用しているため Jetson では動作しません。
 
-* Raspbean Streatch Lite の使用が前提です。
+* Raspbean Streatch Lite の使用が前提です
 　動作確認を行ったバージョンが上記です。
 
 ## ブルドーザ本体の製作
@@ -187,7 +187,9 @@ cp myconfig_cat.py myconfig.py
 
 ## トレーニング
 
-Google Colaboratoryを使ったトレーニングは [こちら](./docs/colab.md) を参照してください。
+モデルの入出力層、Tubデータ構成を変更していないので、通常のトレーニング処理(例： `python manage_cat.py train --tub data/tub_N-YY-MM-DD --model models/mypilot.h5`)を実行してください。
+
+> Google Colaboratoryを使ったトレーニングは [こちら](./docs/colab.md) を参照してください。
 
 ## 注意
 
@@ -199,8 +201,7 @@ Google Colaboratoryを使ったトレーニングは [こちら](./docs/colab.md
 * `raspistill -o test.jpg` で撮影できるかどうか
 * `vcgencmd get_camera` の結果が両方 `1` かどうか
 
-上記が動作しない場合は、カメラをつけ直ししてください。
-Raspberry Piのカメラインターフェイスは、すぐにずれてしまうので注意してください。
+上記が動作しない場合は、カメラをつけ直ししてください。Raspberry Piに慣れていない人は、意外とこの取付が正しく行われていないことが多いです。Raspberry Piのカメラインターフェイスは、すぐにずれてしまうので注意してください。
 
 ### トレーニングおよび自動運転
 
@@ -210,6 +211,8 @@ Donkeycar上のアプリケーションディレクトリが `~/caterpillar` で
 
 プログラムが異常停止した場合、モータが回転したままとなることがあります。
 そのような場合は、DCモータ電源（電池ボックス）をオフにしてください。
+
+> 暴走した場合は、STBYピンをLOWにする `stop_motor.py` を試してみてください。
 
 ### ゴムの履帯
 
